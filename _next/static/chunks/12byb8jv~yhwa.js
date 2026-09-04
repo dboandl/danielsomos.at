@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,50155,e=>{"use strict";var t=e.i(60986);e.s(["HtmlLang",0,function({lang:e}){return(0,t.useEffect)(()=>{let t=document.documentElement.lang;return document.documentElement.lang=e,()=>{document.documentElement.lang=t}},[e]),null}])}]);

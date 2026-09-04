@@ -1,0 +1,29 @@
+# Caching rules — without these the server sends no Cache-Control at all,
+# and browsers heuristically cache old pages/images for days.
+<IfModule mod_headers.c>
+  # HTML, sitemap, robots: always revalidate (304 if unchanged)
+  <FilesMatch "\.(html|xml|txt|json)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  # Images/icons/fonts keep the same filename when content changes:
+  # short cache, then revalidate
+  <FilesMatch "\.(png|jpe?g|webp|avif|gif|svg|ico|woff2?)$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+  # CSS/JS live only under /_next/static with hashed filenames: cache forever
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+
+# Fallback if mod_headers is unavailable
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType image/png "access plus 1 hour"
+  ExpiresByType image/jpeg "access plus 1 hour"
+  ExpiresByType image/webp "access plus 1 hour"
+  ExpiresByType image/svg+xml "access plus 1 hour"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+</IfModule>
